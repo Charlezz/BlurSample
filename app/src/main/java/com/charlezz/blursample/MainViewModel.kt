@@ -3,16 +3,16 @@ package com.charlezz.blursample
 import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.widget.RadioGroup
+import android.renderscript.RenderScript
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.charlezz.blur.BlurType
+import com.charlezz.blur.*
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-
+    val maxRadius = 25
     val latestMeasureTimeMills = MutableLiveData<Long>().apply { value = 0 }
-    val selectedBlurType = MutableLiveData<BlurType>().apply { value = BlurType.BOX_BLUR }
+    val blurType = MutableLiveData<BlurType>().apply { value = BlurType.BOX_BLUR }
     val liveRadius = MutableLiveData<Int>().apply { value = 5 }
     val bmpImage = MutableLiveData<Bitmap>().apply {
         value = BitmapFactory.decodeResource(application.resources, R.drawable.image)
@@ -20,11 +20,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val blurEvent = SingleLiveEvent<Unit>()
     var progressing = MutableLiveData<Boolean>().apply { value = false }
 
-    fun onBlurTypeChanged(radioGroup: RadioGroup, id: Int) {
-        when (id) {
-            R.id.rb_blur1 -> selectedBlurType.value = BlurType.BOX_BLUR
-            R.id.rb_blur2 -> selectedBlurType.value = BlurType.BOX_BLUR_OPTIMIZED
-        }
+    private val blurEngineMap = HashMap<BlurType, BlurEngine>().apply {
+        put(BlurType.BOX_BLUR, BoxBlur())
+        put(BlurType.BOX_BLUR_OPTIMIZED, BoxBlurOptimized())
+        put(BlurType.GAUSSIAN_BLUR_RS, GaussianBlurRS(application))
+        put(BlurType.STACK_BLUR, StackBlur())
+    }
+
+    fun getCurrentBlurEngine(): BlurEngine? {
+        return blurEngineMap[blurType.value]
     }
 
     fun setRadius(progress: Int) {

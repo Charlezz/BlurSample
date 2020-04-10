@@ -3,7 +3,7 @@ package com.charlezz.blur
 import android.graphics.Bitmap
 import java.util.*
 
-class BoxBlurOptimized: AbstractBlur {
+class BoxBlurOptimized: BlurEngine {
 
     override fun blur(image: Bitmap, radius: Int): Bitmap {
         val w = image.width

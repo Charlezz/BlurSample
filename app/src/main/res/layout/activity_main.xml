@@ -25,28 +25,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioGroup
-            android:id="@+id/radio_group"
+        <Spinner
+            android:id="@+id/spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:checkedButton="@id/rb_blur1"
-            android:onCheckedChanged="@{viewModel.onBlurTypeChanged}"
-            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image">
+            app:layout_constraintTop_toBottomOf="@id/image"
+            />
 
-            <RadioButton
-                android:id="@+id/rb_blur1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="BoxBlur" />
-            <RadioButton
-                android:id="@+id/rb_blur2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="BoxBlur2" />
-        </RadioGroup>
 
         <SeekBar
             android:id="@+id/seek_bar"
@@ -55,11 +42,11 @@
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="32dp"
-            android:max="20"
+            android:max="@{viewModel.maxRadius}"
             android:progress="@={viewModel.radius}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/radio_group" />
+            app:layout_constraintTop_toBottomOf="@id/spinner" />
 
 
         <TextView

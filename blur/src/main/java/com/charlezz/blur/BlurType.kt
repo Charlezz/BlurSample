@@ -1,6 +1,10 @@
 package com.charlezz.blur
 
-enum class BlurType(val abstractBlur: AbstractBlur){
-    BOX_BLUR(BoxBlur()),
-    BOX_BLUR_OPTIMIZED(BoxBlurOptimized())
+import android.content.Context
+
+enum class BlurType {
+    BOX_BLUR,
+    BOX_BLUR_OPTIMIZED,
+    GAUSSIAN_BLUR_RS,
+    STACK_BLUR,
 }
