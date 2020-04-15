@@ -31,8 +31,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image"
-            />
+            app:layout_constraintTop_toBottomOf="@id/image" />
 
 
         <SeekBar
@@ -92,9 +91,21 @@
             android:enabled="@{!viewModel.progressing}"
             android:onClick="@{v-> viewModel.onResetClick()}"
             android:text="reset"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/realtime"
             app:layout_constraintStart_toEndOf="@id/blur"
             app:layout_constraintTop_toBottomOf="@id/result" />
+
+        <Button
+            android:id="@+id/realtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:text="realtime"
+            android:onClick="@{v->viewModel.onRealtimeClick()}"
+            app:layout_constraintBottom_toBottomOf="@id/reset"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/reset"
+            app:layout_constraintTop_toTopOf="@id/reset" />
 
         <ProgressBar
             android:layout_width="wrap_content"

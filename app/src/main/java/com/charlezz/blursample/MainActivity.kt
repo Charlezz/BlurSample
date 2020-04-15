@@ -1,5 +1,6 @@
 package com.charlezz.blursample
 
+import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.charlezz.blur.BlurType
 import com.charlezz.blursample.databinding.ActivityMainBinding
+import com.charlezz.blursample.realtime.LiveBlurActivity
 import kotlin.concurrent.thread
 import kotlin.system.measureTimeMillis
 
@@ -43,6 +45,10 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+        viewModel.realtimeEvent.observe(this, Observer {
+            startActivity(Intent(this, LiveBlurActivity::class.java))
+        })
+
         viewModel.bmpImage.observe(this, Observer {
             binding.image.setImageBitmap(it)
         })
@@ -65,6 +71,8 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
+
+
 
 
     }

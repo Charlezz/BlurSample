@@ -18,6 +18,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         value = BitmapFactory.decodeResource(application.resources, R.drawable.image)
     }
     val blurEvent = SingleLiveEvent<Unit>()
+    val realtimeEvent = SingleLiveEvent<Unit>()
     var progressing = MutableLiveData<Boolean>().apply { value = false }
 
     private val blurEngineMap = HashMap<BlurType, BlurEngine>().apply {
@@ -44,5 +45,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun onBlurClick() {
         blurEvent.call()
+    }
+    fun onRealtimeClick(){
+        realtimeEvent.call()
     }
 }
