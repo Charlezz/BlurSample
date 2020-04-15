@@ -5,49 +5,38 @@ import android.graphics.Bitmap
 import android.renderscript.Allocation
 import android.renderscript.Element
 import android.renderscript.RenderScript
-import at.favre.app.blurbenchmark.ScriptC_stackblur
+import android.util.Log
+import com.hoko.blur.renderscript.ScriptC_stackblur
+import kotlin.system.measureTimeMillis
 
 
-class StackBlurRs(private val context: Context) : BlurEngine {
+class StackBlurRs(context: Context) : BlurEngine {
     private var renderScript = RenderScript.create(context)
 
-
+    var inAllocation: Allocation? = null
+    var outAllocation: Allocation? = null
     override fun blur(bitmap: Bitmap, radius: Int): Bitmap {
         val width = bitmap.width
         val height = bitmap.height
         val blurScript = ScriptC_stackblur(renderScript)
-        val inAllocation = Allocation.createFromBitmap(renderScript, bitmap)
-        blurScript._gIn = inAllocation
-        blurScript._width = width.toLong()
-        blurScript._height = height.toLong()
-        blurScript._radius = radius.toLong()
-        var row_indices = IntArray(height)
-        for (i in 0 until height) {
-            row_indices[i] = i
-        }
-        val rows =
-            Allocation.createSized(
-                renderScript,
-                Element.U32(renderScript),
-                height,
-                Allocation.USAGE_SCRIPT
-            )
-        rows.copyFrom(row_indices)
-        row_indices = IntArray(width)
-        for (i in 0 until width) {
-            row_indices[i] = i
-        }
-        val columns =
-            Allocation.createSized(
-                renderScript,
-                Element.U32(renderScript),
-                width,
-                Allocation.USAGE_SCRIPT
-            )
-        columns.copyFrom(row_indices)
-        blurScript.forEach_blur_h(rows)
-        blurScript.forEach_blur_v(columns)
-        inAllocation.copyTo(bitmap)
+
+        inAllocation = Allocation.createFromBitmap(renderScript, bitmap)
+        outAllocation = Allocation.createFromBitmap(renderScript, Bitmap.createBitmap(bitmap))
+
+        blurScript._input = inAllocation
+        blurScript._output = outAllocation
+        blurScript._width = width
+        blurScript._height = height
+        blurScript._radius = radius
+
+        blurScript.forEach_stackblur_v(inAllocation)
+
+        blurScript._input = outAllocation
+        blurScript._output = inAllocation
+
+        blurScript.forEach_stackblur_h(outAllocation)
+
+        inAllocation?.copyTo(bitmap)
         return bitmap
     }
 

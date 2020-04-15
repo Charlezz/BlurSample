@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<declare-styleable name="LiveBlurView">
-		<attr name="realtimeBlurRadius" format="dimension"/>
-		<attr name="realtimeDownsampleFactor" format="float"/>
-		<attr name="realtimeOverlayColor" format="color"/>
+		<attr name="liveBlurRadius" format="integer"/>
+		<attr name="liveBlurDownsampleFactor" format="float"/>
+		<attr name="liveBlurOverlayColor" format="color"/>
 	</declare-styleable>
 </resources>

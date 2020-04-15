@@ -43,9 +43,9 @@ class StackBlur : BlurEngine {
         private val _totalCores: Int,
         private val _coreIndex: Int,
         private val _round: Int
-    ) : Callable<Void?> {
+    ) : Callable<Unit> {
         @Throws(Exception::class)
-        override fun call(): Void? {
+        override fun call() {
             blurIteration(
                 _src,
                 _w,
@@ -55,7 +55,6 @@ class StackBlur : BlurEngine {
                 _coreIndex,
                 _round
             )
-            return null
         }
 
     }

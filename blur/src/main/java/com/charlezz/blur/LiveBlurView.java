@@ -9,7 +9,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -19,8 +18,8 @@ import android.view.ViewTreeObserver;
 public class LiveBlurView extends View {
 
     private float downsampleFactor; // default 4
-    private int overlayColor; // default #aaffffff
-    private float radius; // default 10dp (0 < r <= 25)
+    private int overlayColor; // default #00ffffff
+    private int radius; //
 
     private final BlurEngine blurEngine;
     private boolean mDirty;
@@ -39,17 +38,19 @@ public class LiveBlurView extends View {
     public LiveBlurView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        blurEngine = new StackBlur();
+//        blurEngine = new StackBlur();
+//        blurEngine = new StackBlurRs();
+        blurEngine = new StackBlurNative();
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.LiveBlurView);
-        radius = a.getDimension(R.styleable.LiveBlurView_realtimeBlurRadius, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics()));
-        downsampleFactor = a.getFloat(R.styleable.LiveBlurView_realtimeDownsampleFactor, 4);
-        overlayColor = a.getColor(R.styleable.LiveBlurView_realtimeOverlayColor, 0x00FFFFFF);
+        radius = a.getInt(R.styleable.LiveBlurView_liveBlurRadius,10);
+        downsampleFactor = a.getFloat(R.styleable.LiveBlurView_liveBlurDownsampleFactor, 4);
+        overlayColor = a.getColor(R.styleable.LiveBlurView_liveBlurOverlayColor, 0x00FFFFFF);
         a.recycle();
 
         paint = new Paint();
     }
 
-    public void setBlurRadius(float radius) {
+    public void setBlurRadius(int radius) {
         if (this.radius != radius) {
             this.radius = radius;
             mDirty = true;
@@ -155,8 +156,11 @@ public class LiveBlurView extends View {
         return true;
     }
 
-    protected void blur(Bitmap bitmapToBlur, Bitmap blurredBitmap) {
+    protected void blur(Bitmap bitmapToBlur) {
+//        long processingTime = System.currentTimeMillis();
         this.blurredBitmap = blurEngine.blur(bitmapToBlur, (int) radius);
+//        processingTime = System.currentTimeMillis() - processingTime;
+//        Log.e("LiveBlurView","processingTime = "+processingTime+" width = "+bitmapToBlur.getWidth()+" height = "+bitmapToBlur.getHeight());
     }
 
     private final ViewTreeObserver.OnPreDrawListener preDrawListener = new ViewTreeObserver.OnPreDrawListener() {
@@ -196,9 +200,10 @@ public class LiveBlurView extends View {
                     blurringCanvas.restoreToCount(rc);
                 }
 
-                blur(bitmapToBlur, blurredBitmap);
+                blur(bitmapToBlur);
 
 //                if (redrawBitmap || differentRoot) {
+
                 invalidate();
 //                }
             }

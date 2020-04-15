@@ -25,22 +25,33 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.charlezz.blur.LiveBlurView
+            android:id="@+id/live_blur"
             android:layout_width="300dp"
             android:layout_height="300dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:liveBlurRadius="10" />
 
         <Button
             android:id="@+id/drag_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="drag me"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <SeekBar
+            android:id="@+id/radius"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="25"
+            android:progress="10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

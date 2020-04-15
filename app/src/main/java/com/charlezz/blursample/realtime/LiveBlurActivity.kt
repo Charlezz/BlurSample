@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.charlezz.blursample.databinding.ActivityLiveBlurBinding
@@ -22,6 +23,18 @@ class LiveBlurActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
 
         binding.dragBtn.setOnTouchListener(touchListener)
+
+        binding.radius.setOnSeekBarChangeListener(object:SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                binding.liveBlur.setBlurRadius(progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
     }
 
     private val touchListener: OnTouchListener = object : OnTouchListener {

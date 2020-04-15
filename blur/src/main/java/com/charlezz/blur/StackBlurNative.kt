@@ -1,9 +1,11 @@
 package com.charlezz.blur
 
 import android.graphics.Bitmap
+import android.util.Log
 import java.util.concurrent.Callable
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlin.system.measureTimeMillis
 
 class StackBlurNative : BlurEngine {
     companion object {
@@ -30,8 +32,8 @@ class StackBlurNative : BlurEngine {
         val vertical =
             ArrayList<NativeTask>(cores)
         for (i in 0 until cores) {
-            horizontal.add(NativeTask(bitmapOut, radius.toInt(), cores, i, 1))
-            vertical.add(NativeTask(bitmapOut, radius.toInt(), cores, i, 2))
+            horizontal.add(NativeTask(bitmapOut, radius, cores, i, 1))
+            vertical.add(NativeTask(bitmapOut, radius, cores, i, 2))
         }
         try {
             EXECUTOR.invokeAll(horizontal)
