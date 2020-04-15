@@ -3,7 +3,6 @@ package com.charlezz.blursample
 import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.renderscript.RenderScript
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.charlezz.blur.*
@@ -24,8 +23,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val blurEngineMap = HashMap<BlurType, BlurEngine>().apply {
         put(BlurType.BOX_BLUR, BoxBlur())
         put(BlurType.BOX_BLUR_OPTIMIZED, BoxBlurOptimized())
-        put(BlurType.GAUSSIAN_BLUR_RS, GaussianBlurRS(application))
+        put(BlurType.GAUSSIAN_BLUR_RS, GaussianBlurRs(application))
         put(BlurType.STACK_BLUR, StackBlur())
+        put(BlurType.STACK_BLUR_NATIVE, StackBlurNative())
+        put(BlurType.STACK_BLUR_RS, StackBlurRs(application))
     }
 
     fun getCurrentBlurEngine(): BlurEngine? {

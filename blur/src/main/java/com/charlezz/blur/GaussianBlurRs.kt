@@ -7,7 +7,7 @@ import android.renderscript.Element
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
 
-class GaussianBlurRS(private val context: Context) : BlurEngine {
+class GaussianBlurRs(private val context: Context) : BlurEngine {
     override fun blur(image: Bitmap, radius: Int): Bitmap {
         val bitmap = image.copy(image.config, true)
         val rs = RenderScript.create(context)
